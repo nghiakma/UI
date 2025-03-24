@@ -1,20 +1,31 @@
+import { NavigationContainer } from '@react-navigation/native';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { useFonts } from 'expo-font';
+import {
+  Urbanist_400Regular,
+  Urbanist_500Medium,
+  Urbanist_600SemiBold,
+  Urbanist_700Bold,
+} from '@expo-google-fonts/urbanist';
+import BottomTabNavigator from './navigation/BottomTabNavigator';
+import { COLORS,BORDER_RADIUS } from './constants/theme';
 
 export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
-  );
-}
+  const [fontsLoaded] = useFonts({
+    Urbanist_400Regular,
+    Urbanist_500Medium,
+    Urbanist_600SemiBold,
+    Urbanist_700Bold,
+  });
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+  if (!fontsLoaded) {
+    return null;
+  }
+
+  return (
+    <NavigationContainer>
+      <StatusBar style="dark" backgroundColor={COLORS.background.default} />
+      <BottomTabNavigator />
+    </NavigationContainer>
+  );
+} 
