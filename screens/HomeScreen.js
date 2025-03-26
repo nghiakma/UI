@@ -174,10 +174,15 @@ const HomeScreen = ({ navigation }) => {
             contentContainerStyle={styles.mentorsContainer}
           >
             {MENTORS.map((mentor) => (
-              <View key={mentor.id} style={styles.mentorItem}>
-                <Avatar source={mentor.image} size={64} />
-                <Text style={styles.mentorName}>{mentor.name}</Text>
-              </View>
+              <TouchableOpacity 
+                key={mentor.id}
+                onPress={() => navigation.navigate('MentorProfile')}
+              >
+                <View style={styles.mentorItem}>
+                  <Avatar source={mentor.image} size={64} />
+                  <Text style={styles.mentorName}>{mentor.name}</Text>
+                </View>
+              </TouchableOpacity>
             ))}
           </ScrollView>
         </View>

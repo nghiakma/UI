@@ -75,8 +75,11 @@ const MENTORS = [
   },
 ];
 
-const MentorItem = ({ mentor }) => (
-  <TouchableOpacity style={styles.mentorItem}>
+const MentorItem = ({ mentor, navigation }) => (
+  <TouchableOpacity 
+    style={styles.mentorItem}
+    onPress={() => navigation.navigate('MentorProfile')}
+  >
     <View style={styles.mentorInfo}>
       <Avatar source={mentor.image} size={56} />
       <View style={styles.mentorTextContainer}>
@@ -116,7 +119,7 @@ const TopMentorsScreen = ({ navigation }) => {
           showsVerticalScrollIndicator={false}
         >
           {MENTORS.map((mentor) => (
-            <MentorItem key={mentor.id} mentor={mentor} />
+            <MentorItem key={mentor.id} mentor={mentor} navigation={navigation} />
           ))}
         </ScrollView>
       </View>

@@ -220,6 +220,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: COLORS.background.default,
+    marginTop: 30
   },
   content: {
     flex: 1,
@@ -319,8 +320,6 @@ const styles = StyleSheet.create({
     padding: 24,
     paddingBottom: Platform.OS === 'ios' ? 40 : 24,
     backgroundColor: COLORS.white,
-    borderTopWidth: 1,
-    borderTopColor: COLORS.border.default,
     ...Platform.select({
       ios: {
         shadowColor: 'rgba(4, 6, 15, 0.05)',

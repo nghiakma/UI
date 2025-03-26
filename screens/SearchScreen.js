@@ -202,6 +202,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: COLORS.background.default,
+    marginTop: 30
   },
   content: {
     flex: 1,
@@ -277,6 +278,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     lineHeight: 24,
     color: COLORS.text.primary,
+    paddingBottom: 10
   },
   clearAll: {
     fontFamily: FONTS.urbanist.semiBold,
@@ -284,6 +286,7 @@ const styles = StyleSheet.create({
     lineHeight: 19.6,
     letterSpacing: 0.2,
     color: COLORS.primary,
+    paddingBottom: 10
   },
   tagsContainer: {
     flexDirection: 'row',
