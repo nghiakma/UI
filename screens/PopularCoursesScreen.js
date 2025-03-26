@@ -23,14 +23,6 @@ export const CATEGORIES = [
   { id: '5', label: '🎨 Entrepreneurship' },
 ];
 
-const MENTORS = [
-  { id: '1', name: 'Jacob', image: { uri: 'https://picsum.photos/200?random=1' } },
-  { id: '2', name: 'Claire', image: { uri: 'https://picsum.photos/200?random=2' } },
-  { id: '3', name: 'Priscilla', image: { uri: 'https://picsum.photos/200?random=3' } },
-  { id: '4', name: 'Wade', image: { uri: 'https://picsum.photos/200?random=4' } },
-  { id: '5', name: 'Kathryn', image: { uri: 'https://picsum.photos/200?random=5' } },
-];
-
 export const COURSES = [
   {
     id: '1',
@@ -66,7 +58,7 @@ export const COURSES = [
   },
 ];
 
-const HomeScreen = ({ navigation }) => {
+const PopularCoursesScreen = ({ navigation }) => {
   const [selectedCategory, setSelectedCategory] = useState('1');
   const { isBookmarked, toggleBookmark } = useBookmark();
   const [selectedCourseId, setSelectedCourseId] = useState(null);
@@ -96,100 +88,22 @@ const HomeScreen = ({ navigation }) => {
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView contentContainerStyle={styles.contentContainer}>
-        {/* Header */}
-        <View style={styles.header}>
-          <View style={styles.headerLeft}>
-            <Avatar
-              size={48}
-              source={{ uri: 'https://picsum.photos/200?random=9' }}
-            />
-            <View>
-              <Text style={styles.greeting}>Good Morning 👋</Text>
-              <Text style={styles.username}>Andrew Ainsley</Text>
-            </View>
-          </View>
-          <View style={styles.headerRight}>
-            <TouchableOpacity 
-              style={styles.iconButton}
-              onPress={() => navigation.navigate('Notification')}
-            >
-              <Ionicons
-                name="notifications-outline"
-                size={24}
-                color={COLORS.text.primary}
-              />
-            </TouchableOpacity>
-            <TouchableOpacity 
-              style={styles.iconButton}
-              onPress={() => navigation.navigate('Bookmark')}
-            >
-              <Ionicons
-                name="bookmark-outline"
-                size={24}
-                color={COLORS.text.primary}
-              />
-            </TouchableOpacity>
-          </View>
-        </View>
-
-        {/* Search Bar */}
-        <TouchableOpacity 
-          style={styles.searchContainer}
-          onPress={() => navigation.navigate('Search')}
-        >
-          <View style={styles.searchInput}>
-            <Ionicons
-              name="search-outline"
-              size={24}
-              color={COLORS.text.lightGray}
-            />
-            <Text style={styles.searchPlaceholder}>Search</Text>
-          </View>
-          <TouchableOpacity 
-            style={styles.filterButton}
-            onPress={() => navigation.navigate('AdvancedSearch')}
-          >
-            <Ionicons
-              name="options-outline"
-              size={24}
-              color={COLORS.primary}
-            />
-          </TouchableOpacity>
-        </TouchableOpacity>
-
-        {/* Special Offer */}
-        <SpecialOfferCard />
-
-        {/* Top Mentors */}
-        <View style={styles.section}>
-          <View style={styles.sectionHeader}>
-            <Text style={styles.sectionTitle}>Top Mentors</Text>
-            <TouchableOpacity onPress={() => navigation.navigate('TopMentors')}>
-              <Text style={styles.seeAll}>See All</Text>
-            </TouchableOpacity>
-          </View>
-          <ScrollView
-            horizontal
-            showsHorizontalScrollIndicator={false}
-            contentContainerStyle={styles.mentorsContainer}
-          >
-            {MENTORS.map((mentor) => (
-              <View key={mentor.id} style={styles.mentorItem}>
-                <Avatar source={mentor.image} size={64} />
-                <Text style={styles.mentorName}>{mentor.name}</Text>
-              </View>
-            ))}
-          </ScrollView>
-        </View>
-
         {/* Most Popular Courses */}
         <View style={styles.section}>
-          <View style={styles.sectionHeader}>
-            <Text style={styles.sectionTitle}>Most Popular Courses</Text>
-            <TouchableOpacity onPress={() => navigation.navigate('PopularCourses')}>
-              <Text style={styles.seeAll}>See All</Text>
+        <View style={styles.header}>
+          <View style={styles.headerLeft}>
+            <TouchableOpacity 
+              onPress={() => navigation.goBack()}
+              style={styles.backButton}
+            >
+              <Ionicons name="arrow-back" size={24} color={COLORS.text.primary} />
             </TouchableOpacity>
+            <Text style={styles.title}>Most Popular Courses</Text>
           </View>
+          <TouchableOpacity style={styles.searchButton}>
+            <Ionicons name="search-outline" size={24} color={COLORS.text.primary} />
+          </TouchableOpacity>
+        </View>
 
           {/* Categories */}
           <ScrollView
@@ -252,6 +166,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: COLORS.background.default,
+    marginTop:40
   },
   contentContainer: {
     padding: SPACING.xl,
@@ -261,12 +176,24 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginTop: 30
+    gap: 12,
   },
   headerLeft: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: SPACING.xl,
+    gap: 16,
+  },
+  backButton: {
+    padding: 4,
+  },
+  title: {
+    fontFamily: FONTS.urbanist.bold,
+    fontSize: 24,
+    lineHeight: 28.8, // 1.2 line height ratio from Figma
+    color: COLORS.text.primary,
+  },
+  searchButton: {
+    padding: 4,
   },
   greeting: {
     fontFamily: FONTS.urbanist.regular,
@@ -300,20 +227,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: SPACING.xl,
     gap: SPACING.lg,
   },
-  searchPlaceholder: {
-    fontFamily: FONTS.urbanist.regular,
-    fontSize: SIZES.md,
-    color: COLORS.text.lightGray,
-    letterSpacing: 0.2,
-  },
-  filterButton: {
-    width: 56,
-    height: 56,
-    backgroundColor: COLORS.background.gray,
-    borderRadius: BORDER_RADIUS.medium,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
   section: {
     gap: SPACING.xl,
   },
@@ -331,20 +244,6 @@ const styles = StyleSheet.create({
     fontFamily: FONTS.urbanist.bold,
     fontSize: SIZES.lg,
     color: COLORS.primary,
-    letterSpacing: 0.2,
-  },
-  mentorsContainer: {
-    paddingVertical: SPACING.xs,
-    gap: SPACING.xl,
-  },
-  mentorItem: {
-    alignItems: 'center',
-    gap: SPACING.md,
-  },
-  mentorName: {
-    fontFamily: FONTS.urbanist.semiBold,
-    fontSize: SIZES.lg,
-    color: COLORS.text.primary,
     letterSpacing: 0.2,
   },
   categoriesContainer: {
@@ -375,4 +274,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default HomeScreen; 
+export default PopularCoursesScreen; 

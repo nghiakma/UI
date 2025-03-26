@@ -75,6 +75,26 @@ export const SHADOWS = {
     shadowRadius: 24,
     elevation: 8,
   },
+  large: {
+    shadowColor: 'rgba(51, 94, 247, 0.35)',
+    shadowOffset: {
+      width: 8,
+      height: 16,
+    },
+    shadowOpacity: 1,
+    shadowRadius: 36,
+    elevation: 12,
+  },
+  xl: {
+    shadowColor: 'rgba(51, 94, 247, 0.45)',
+    shadowOffset: {
+      width: 12,
+      height: 24,
+    },
+    shadowOpacity: 1,
+    shadowRadius: 48,
+    elevation: 16,
+  }
 };
 
 export const BORDER_RADIUS = {
