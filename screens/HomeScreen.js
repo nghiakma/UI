@@ -31,6 +31,21 @@ const MENTORS = [
   { id: '5', name: 'Kathryn', image: { uri: 'https://picsum.photos/200?random=5' } },
 ];
 
+// Function to calculate total duration for a section
+const calculateTotalDuration = (lessons) => {
+  return lessons.reduce((total, lesson) => {
+    const minutes = parseInt(lesson.duration.split(' ')[0]);
+    return total + minutes;
+  }, 0) + ' mins';
+};
+
+// Function to calculate total number of lessons
+const calculateTotalLessons = (sections) => {
+  return sections.reduce((total, section) => {
+    return total + section.lessons.length;
+  }, 0);
+};
+
 export const COURSES = [
   {
     id: '1',
@@ -42,6 +57,120 @@ export const COURSES = [
     rating: '4.8',
     students: '8,289',
     isBookmarked: true,
+    reviews: '4,479',
+    duration: '2,5',
+    videoUrl: 'https://storage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
+    tools:[
+      {
+        title:"Figma",
+        image: require('../assets/images/figma.png')
+      },
+      {
+        title:"Photoshop",
+        image: require('../assets/images/photoshop.png')
+      },
+    ],
+    instructor: {
+      id: '1',
+      name: 'Jacob Kulikowski',
+      role: 'Marketing Analyst',
+      image: { uri: 'https://picsum.photos/200?random=1' }
+    },
+    lessons: {
+      sections: [
+        {
+          id: '1',
+          title: 'Section 1 - Introduction',
+          lessons: [
+            {
+              id: '1',
+              number: '01',
+              title: 'Why Using 3D Design',
+              duration: '20 mins',
+              isLocked: false
+            },
+            {
+              id: '2',
+              number: '02',
+              title: 'Set up Your Design Environment',
+              duration: '5 mins',
+              isLocked: true
+            }
+          ],
+          totalDuration: '15 mins' // Will be calculated in CourseDetailsScreen
+        },
+        {
+          id: '2',
+          title: 'Section 2 - 3D Design Basics',
+          totalDuration: '60 mins',
+          lessons: [
+            {
+              id: '3',
+              number: '03',
+              title: 'Understanding 3D Interface',
+              duration: '15 mins',
+              isLocked: true
+            },
+            {
+              id: '4',
+              number: '04',
+              title: 'Working with Shapes & Objects',
+              duration: '10 mins',
+              isLocked: true
+            },
+            {
+              id: '5',
+              number: '05',
+              title: 'Working with Lighting & Textures',
+              duration: '10 mins',
+              isLocked: true
+            },
+            {
+              id: '6',
+              number: '06',
+              title: 'Using Design Plugins',
+              duration: '25 mins',
+              isLocked: true
+            }
+          ]
+        },
+        {
+          id: '3',
+          title: 'Section 3 - Let\'s Practice',
+          totalDuration: '75 mins',
+          lessons: [
+            {
+              id: '7',
+              number: '07',
+              title: 'Let\'s Design a 3D Character',
+              duration: '35 mins',
+              isLocked: true
+            },
+            {
+              id: '8',
+              number: '08',
+              title: 'Let\'s Create Animation',
+              duration: '20 mins',
+              isLocked: true
+            },
+            {
+              id: '9',
+              number: '09',
+              title: 'Sharing Work with Team',
+              duration: '8 mins',
+              isLocked: true
+            },
+            {
+              id: '10',
+              number: '10',
+              title: 'Exporting 3D Assets',
+              duration: '12 mins',
+              isLocked: true
+            }
+          ]
+        }
+      ],
+    }
   },
   {
     id: '2',
@@ -52,10 +181,106 @@ export const COURSES = [
     rating: '4.9',
     students: '6,182',
     isBookmarked: false,
+    reviews: '4,479',
+    duration: '2,5',
+    videoUrl: 'https://storage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
+    tools:[
+      {
+        title:"Figma",
+        image: require('../assets/images/figma_icon.png')
+      }
+    ],
+    instructor: {
+      id: '1',
+      name: 'Jacob Kulikowski',
+      role: 'Marketing Analyst',
+      image: { uri: 'https://picsum.photos/200?random=1' }
+    },
+    lessons: {
+      sections: [
+        {
+          id: '1',
+          title: 'Section 1 - Intro to Entrepreneurship',
+          totalDuration: '20 mins',
+          lessons: [
+            {
+              id: '1',
+              number: '01',
+              title: 'What is Digital Entrepreneurship',
+              duration: '12 mins',
+              isLocked: false
+            },
+            {
+              id: '2',
+              number: '02',
+              title: 'Market Research Basics',
+              duration: '8 mins',
+              isLocked: true
+            }
+          ]
+        },
+        {
+          id: '2',
+          title: 'Section 2 - Business Planning',
+          totalDuration: '50 mins',
+          lessons: [
+            {
+              id: '3',
+              number: '03',
+              title: 'Creating a Business Plan',
+              duration: '15 mins',
+              isLocked: true
+            },
+            {
+              id: '4',
+              number: '04',
+              title: 'Financial Planning',
+              duration: '18 mins',
+              isLocked: true
+            },
+            {
+              id: '5',
+              number: '05',
+              title: 'Market Strategy',
+              duration: '17 mins',
+              isLocked: true
+            }
+          ]
+        },
+        {
+          id: '3',
+          title: 'Section 3 - Growth Strategy',
+          totalDuration: '65 mins',
+          lessons: [
+            {
+              id: '6',
+              number: '06',
+              title: 'Digital Marketing',
+              duration: '22 mins',
+              isLocked: true
+            },
+            {
+              id: '7',
+              number: '07',
+              title: 'Scaling Your Business',
+              duration: '25 mins',
+              isLocked: true
+            },
+            {
+              id: '8',
+              number: '08',
+              title: 'Funding Options',
+              duration: '18 mins',
+              isLocked: true
+            }
+          ]
+        }
+      ],
+    }
   },
   {
     id: '3',
-    title: 'Learn UX User Persona',
+    title: 'Intro to UI/UX Design',
     category: 'UI/UX Design',
     image: { uri: 'https://picsum.photos/400/300?random=8' },
     price: '42',
@@ -63,6 +288,116 @@ export const COURSES = [
     rating: '4.7',
     students: '7,938',
     isBookmarked: true,
+    reviews: '4,479',
+    duration: '2,5',
+    tools:[
+    {
+      title:"Figma",
+      image: require('../assets/images/figma_icon.png')
+    }
+    ],
+    videoUrl: 'https://storage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
+    instructor: {
+      id: '1',
+      name: 'Jacob Kulikowski',
+      role: 'Marketing Analyst',
+      image: { uri: 'https://picsum.photos/200?random=1' }
+    },
+    lessons: {
+      sections: [
+        {
+          id: '1',
+          title: 'Section 1 - Introduction',
+          totalDuration: '15 mins',
+          lessons: [
+            {
+              id: '1',
+              number: '01',
+              title: 'Why Using Figma',
+              duration: '10 mins',
+              isLocked: false
+            },
+            {
+              id: '2',
+              number: '02',
+              title: 'Set up Your Figma Account',
+              duration: '5 mins',
+              isLocked: true
+            }
+          ]
+        },
+        {
+          id: '2',
+          title: 'Section 2 - Figma Basic',
+          totalDuration: '60 mins',
+          lessons: [
+            {
+              id: '3',
+              number: '03',
+              title: 'Take a Look Figma Interface',
+              duration: '15 mins',
+              isLocked: true
+            },
+            {
+              id: '4',
+              number: '04',
+              title: 'Working with Frame & Layer',
+              duration: '10 mins',
+              isLocked: true
+            },
+            {
+              id: '5',
+              number: '05',
+              title: 'Working with Text & Grids',
+              duration: '10 mins',
+              isLocked: true
+            },
+            {
+              id: '6',
+              number: '06',
+              title: 'Using Figma Plugins',
+              duration: '25 mins',
+              isLocked: true
+            }
+          ]
+        },
+        {
+          id: '3',
+          title: 'Section 3 - Let\'s Practice',
+          totalDuration: '75 mins',
+          lessons: [
+            {
+              id: '7',
+              number: '07',
+              title: 'Let\'s Design a Sign-Up Form',
+              duration: '35 mins',
+              isLocked: true
+            },
+            {
+              id: '8',
+              number: '08',
+              title: 'Let\'s Create a Prototype',
+              duration: '20 mins',
+              isLocked: true
+            },
+            {
+              id: '9',
+              number: '09',
+              title: 'Sharing Work with Team',
+              duration: '8 mins',
+              isLocked: true
+            },
+            {
+              id: '10',
+              number: '10',
+              title: 'Exporting Assets',
+              duration: '12 mins',
+              isLocked: true
+            }
+          ]
+        }
+      ],
+    }
   },
 ];
 
@@ -225,7 +560,7 @@ const HomeScreen = ({ navigation }) => {
 
           {/* Course Cards */}
           <View style={styles.coursesContainer}>
-          {filteredCourses.map((course) => (
+          {filteredCourses.map(( course) => (
             <CourseCard
               key={course.id}
               title={course.title}
@@ -236,7 +571,7 @@ const HomeScreen = ({ navigation }) => {
               rating={course.rating}
               students={course.students}
               isBookmarked={isBookmarked(course.id)}
-              onPress={() => navigation.navigate('CourseDetail', { course })}
+              onPress={() => navigation.navigate('CourseDetails', { course })}
               onBookmarkPress={() => handleBookmarkPress(course.id)}
             />
           ))}

@@ -104,7 +104,8 @@ const MentorProfileScreen = ({ navigation }) => {
   const { isBookmarked, toggleBookmark } = useBookmark();
   const [isBottomSheetVisible, setIsBottomSheetVisible] = useState(false);
   const [selectedCourseId, setSelectedCourseId] = useState(null);
-  
+  const [reviews, setReviews] = useState(REVIEWS);
+
   const handleBookmarkPress = (courseId) => {
     if (isBookmarked(courseId)) {
       setSelectedCourseId(courseId);
@@ -120,6 +121,39 @@ const MentorProfileScreen = ({ navigation }) => {
       setSelectedCourseId(null);
     }
   };
+
+  const ReviewItem = ({ review }) => {
+    return (
+      <View style={styles.reviewCard}>
+        <View style={styles.reviewHeader}>
+          <View style={styles.reviewerInfo}>
+            <Avatar source={review.avatar} size={48} />
+            <View style={styles.reviewerDetails}>
+              <Text style={styles.reviewerName}>{review.name}</Text>
+              <View style={styles.ratingRow}>
+                <View style={styles.starsContainer}>
+                  {[...Array(5)].map((_, i) => (
+                    <Ionicons 
+                      key={i} 
+                      name={i < review.rating ? "star" : "star-outline"} 
+                      size={16} 
+                      color={COLORS.secondary} 
+                    />
+                  ))}
+                </View>
+                <Text style={styles.reviewDate}>{review.date}</Text>
+              </View>
+            </View>
+          </View>
+          <TouchableOpacity style={styles.moreButton}>
+            <Ionicons name="ellipsis-horizontal" size={24} color={COLORS.text.gray} />
+          </TouchableOpacity>
+        </View>
+        <Text style={styles.reviewText}>{review.review}</Text>
+      </View>
+    );
+  };
+  
   const renderTabContent = () => {
     switch (activeTab) {
       case 'Courses':
@@ -161,71 +195,77 @@ const MentorProfileScreen = ({ navigation }) => {
             ))}
             </View>
         );
+        // <TouchableOpacity onPress={() => navigation.navigate('MentorReviews', { reviews: REVIEWS })}>
       case 'Reviews':
         return (
           <View style={styles.reviewsContainer}>
+          {/* Reviews Stats */}
+          <View style={styles.reviewStats}>
+            <View style={styles.reviewRatingContainer}>
+              <Text style={styles.averageRating}>
+                {(REVIEWS.reduce((acc, review) => acc + review.rating, 0) / REVIEWS.length).toFixed(1)}
+              </Text>
+              <View style={styles.starsContainer}>
+                {[...Array(5)].map((_, i) => {
+                  const rating = REVIEWS.reduce((acc, review) => acc + review.rating, 0) / REVIEWS.length;
+                  return (
+                    <Ionicons 
+                      key={i} 
+                      name={i < Math.round(rating) ? "star" : "star-outline"} 
+                      size={16} 
+                      color={COLORS.secondary} 
+                    />
+                  );
+                })}
+              </View>
+              <Text style={styles.totalReviews}>
+                Based on {reviews.length} reviews
+              </Text>
+            </View>
+            
+            {/* Rating distribution */}
+            <View style={styles.ratingDistribution}>
+              {[5, 4, 3, 2, 1].map(star => {
+                const count = REVIEWS.filter(review => review.rating === star).length;
+                const percentage = (count / REVIEWS.length) * 100;
+                
+                return (
+                  <View key={star} style={styles.ratingRow}>
+                    <Text style={styles.ratingLabel}>{star}</Text>
+                    <Ionicons name="star" size={16} color={COLORS.secondary} />
+                    <View style={styles.ratingBarBackground}>
+                      <View 
+                        style={[
+                          styles.ratingBar,
+                          { width: `${percentage}%` }
+                        ]} 
+                      />
+                    </View>
+                    <Text style={styles.ratingCount}>{count}</Text>
+                  </View>
+                );
+              })}
+            </View>
+          </View>
+          
+          {/* Reviews List */}
+          <View style={styles.reviewsList}>
             <View style={styles.reviewsHeader}>
-              <Text style={styles.reviewsTitle}>Latest Reviews</Text>
-              <TouchableOpacity onPress={() => navigation.navigate('MentorReviews', { reviews: REVIEWS })}>
+              <Text style={styles.reviewsTitle}>Recent Reviews</Text>
+              <TouchableOpacity onPress={() => navigation.navigate('MentorReviews', { reviews  })}>
                 <Text style={styles.seeAllText}>See All</Text>
               </TouchableOpacity>
             </View>
-            {REVIEWS
-              .sort((a, b) => {
-                // Convert date strings to numerical values (higher = more recent)
-                const getDateValue = (dateStr) => {
-                  if (dateStr.includes('day')) {
-                    return 100 - parseInt(dateStr.split(' ')[0]);
-                  } else if (dateStr.includes('week')) {
-                    return 50 - parseInt(dateStr.split(' ')[0]) * 7;
-                  } else if (dateStr.includes('month')) {
-                    return 20 - parseInt(dateStr.split(' ')[0]) * 30;
-                  }
-                  return 0;
-                };
-                return getDateValue(b.date) - getDateValue(a.date); // Sort by most recent first
-              })
-              .slice(0, 2) // Take only the 2 most recent reviews
-              .map((review) => (
-                <View key={review.id} style={styles.reviewCard}>
-                  <View style={styles.reviewHeader}>
-                    <View style={styles.reviewerInfo}>
-                      <Avatar source={review.avatar} size={40} />
-                      <View style={styles.reviewerDetails}>
-                        <Text style={styles.reviewerName}>{review.name}</Text>
-                        <View style={styles.ratingRow}>
-                          <View style={styles.starsContainer}>
-                            {[...Array(5)].map((_, i) => (
-                              <Ionicons 
-                                key={i} 
-                                name={i < review.rating ? "star" : "star-outline"} 
-                                size={16} 
-                                color={COLORS.secondary} 
-                              />
-                            ))}
-                          </View>
-                          <Text style={styles.reviewDate}>{review.date}</Text>
-                        </View>
-                      </View>
-                    </View>
-                    <TouchableOpacity style={styles.moreButton}>
-                      <Ionicons name="ellipsis-horizontal" size={24} color={COLORS.text.gray} />
-                    </TouchableOpacity>
-                  </View>
-                  <Text style={styles.reviewText}>{review.review}</Text>
-                  {/* <View style={styles.reviewActions}>
-                    <TouchableOpacity style={styles.actionButton}>
-                      <Ionicons name="heart-outline" size={20} color={COLORS.text.gray} />
-                      <Text style={styles.actionText}>{review.likes}</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={styles.actionButton}>
-                      <Ionicons name="chatbubble-outline" size={20} color={COLORS.text.gray} />
-                      <Text style={styles.actionText}>{review.replies}</Text>
-                    </TouchableOpacity>
-                  </View> */}
-                </View>
-              ))}
+            
+            {/* Display only first 3 reviews for compact view */}
+            {reviews.slice(0, 3).map(review => (
+              <ReviewItem
+                key={review.id}
+                review={review}
+              />
+            ))}
           </View>
+        </View>
         );
       default:
         return null;
@@ -605,16 +645,97 @@ const styles = StyleSheet.create({
   chatButton: {
     padding: 4,
   },
-  // Review styles
   reviewsContainer: {
     gap: SPACING.xl,
   },
-  reviewCard: {
+  reviewStats: {
     backgroundColor: COLORS.white,
     borderRadius: BORDER_RADIUS.xxl,
     padding: SPACING.xl,
-    gap: SPACING.lg,
+    gap: SPACING.xl,
     ...SHADOWS.small,
+  },
+  reviewRatingContainer: {
+    alignItems: 'center',
+    gap: SPACING.xs,
+  },
+  averageRating: {
+    fontFamily: FONTS.urbanist.bold,
+    fontSize: SIZES.h1,
+    color: COLORS.text.primary,
+  },
+  starsContainer: {
+    flexDirection: 'row',
+    gap: 2,
+  },
+  totalReviews: {
+    fontFamily: FONTS.urbanist.medium,
+    fontSize: SIZES.sm,
+    color: COLORS.text.gray,
+    marginTop: SPACING.xs,
+  },
+  ratingDistribution: {
+    gap: SPACING.sm,
+    paddingTop: SPACING.md,
+    borderTopWidth: 1,
+    borderTopColor: COLORS.border.gray,
+  },
+  ratingRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: SPACING.sm,
+  },
+  ratingLabel: {
+    fontFamily: FONTS.urbanist.semiBold,
+    fontSize: SIZES.sm,
+    color: COLORS.text.primary,
+    width: 10,
+    textAlign: 'center',
+  },
+  ratingBarBackground: {
+    flex: 1,
+    height: 6,
+    backgroundColor: COLORS.background.gray,
+    borderRadius: BORDER_RADIUS.full,
+    overflow: 'hidden',
+  },
+  ratingBar: {
+    height: '100%',
+    backgroundColor: COLORS.primary,
+    borderRadius: BORDER_RADIUS.full,
+  },
+  ratingCount: {
+    fontFamily: FONTS.urbanist.medium,
+    fontSize: SIZES.sm,
+    color: COLORS.text.gray,
+    width: 20,
+    textAlign: 'right',
+  },
+  reviewsList: {
+    gap: SPACING.xl,
+  },
+  reviewsHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  reviewsTitle: {
+    fontFamily: FONTS.urbanist.bold,
+    fontSize: 18,
+    color: COLORS.text.primary,
+  },
+  seeAllText: {
+    fontFamily: FONTS.urbanist.bold,
+    fontSize: 16,
+    color: COLORS.primary,
+  },
+  reviewCard: {
+    backgroundColor: COLORS.white,
+    borderRadius: BORDER_RADIUS.medium,
+    padding: SPACING.xl,
+    gap: SPACING.md,
+    ...SHADOWS.small,
+    marginBottom: SPACING.md,
   },
   reviewHeader: {
     flexDirection: 'row',
@@ -631,18 +752,13 @@ const styles = StyleSheet.create({
   },
   reviewerName: {
     fontFamily: FONTS.urbanist.bold,
-    fontSize: SIZES.lg,
-    lineHeight: SIZES.lg * 1.2,
+    fontSize: SIZES.md,
     color: COLORS.text.primary,
   },
   ratingRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: SPACING.md,
-  },
-  starsContainer: {
-    flexDirection: 'row',
-    gap: 2,
+    gap: SPACING.sm,
   },
   reviewDate: {
     fontFamily: FONTS.urbanist.medium,
@@ -657,39 +773,6 @@ const styles = StyleSheet.create({
     fontSize: SIZES.md,
     lineHeight: SIZES.md * 1.6,
     color: COLORS.text.secondary,
-  },
-  reviewActions: {
-    flexDirection: 'row',
-    gap: SPACING.xl,
-  },
-  actionButton: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: SPACING.sm,
-  },
-  actionText: {
-    fontFamily: FONTS.urbanist.medium,
-    fontSize: SIZES.sm,
-    color: COLORS.text.gray,
-  },
-  reviewsHeader: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginBottom: SPACING.md,
-  },
-  reviewsTitle: {
-    fontFamily: FONTS.urbanist.bold,
-    fontSize: SIZES.xl,
-    lineHeight: SIZES.xl * 1.2,
-    color: COLORS.text.primary,
-  },
-  seeAllText: {
-    fontFamily: FONTS.urbanist.medium,
-    fontSize: SIZES.md,
-    lineHeight: SIZES.md * 1.4,
-    letterSpacing: 0.2,
-    color: COLORS.primary,
   },
 });
 

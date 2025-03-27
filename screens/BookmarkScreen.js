@@ -108,7 +108,7 @@ const BookmarkScreen = ({ navigation }) => {
               rating={course.rating}
               students={course.students}
               isBookmarked={isBookmarked(course.id)}
-              onPress={() => navigation.navigate('CourseDetail', { course })}
+              onPress={() => navigation.navigate('CourseDetails', { course })}
               onBookmarkPress={() => handleBookmarkPress(course.id)}
             />
           ))}

@@ -11,7 +11,7 @@ import {
 import { Ionicons } from '@expo/vector-icons';
 import { COLORS, FONTS, SIZES, SPACING, BORDER_RADIUS, SHADOWS } from '../constants/theme';
 import Avatar from '../components/Avatar';
-
+import { COURSE_REVIEWS } from './CourseDetailsScreen';
 
 const ReviewItem = ({ review }) => {
   return (
@@ -47,7 +47,8 @@ const ReviewItem = ({ review }) => {
 
 const CourseReviewsScreen = ({ navigation, route }) => {
   // Get reviews from navigation params or use default data
-  const passedReviews = route.params?.reviews;
+  const passedReviews = route.params?.reviews || COURSE_REVIEWS;
+  const courseTitle = route.params?.courseTitle || 'Course';
   const [reviews, setReviews] = useState(passedReviews);
   const [sortBy, setSortBy] = useState('Recent');
   const [isFilterVisible, setIsFilterVisible] = useState(false);
