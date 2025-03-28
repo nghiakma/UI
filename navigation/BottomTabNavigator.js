@@ -7,7 +7,7 @@ import HomeStack from './HomeStack';
 import MyCourseStack from './MyCourseStack';
 import InboxStack from './InboxStack';
 import TransactionStack from './TransactionStack';
-import ProfileScreen from '../screens/ProfileScreen';
+import ProfileStack from './ProfileStack';
 // Temporary screen components (will be replaced later)
 // const HomeScreen = () => (
 //   <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
@@ -66,7 +66,7 @@ const BottomTabNavigator = () => {
       />
       <Tab.Screen
         name="Profile"
-        component={ProfileScreen}
+        component={ProfileStack}
         options={{
           tabBarIcon: ({ color }) => (
             <Ionicons name="person-outline" size={24} color={color} />

@@ -15,7 +15,6 @@ import CourseDetailsScreen from '../screens/CourseDetailsScreen';
 import AllLessonsScreen from '../screens/AllLessonsScreen';
 import CourseReviewsScreen from '../screens/CourseReviewsScreen';
 
-
 const Stack = createNativeStackNavigator();
 
 const HomeStack = () => {
