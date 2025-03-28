@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   SafeAreaView,
   StyleSheet,
@@ -8,9 +8,11 @@ import {
   ScrollView,
   StatusBar,
   Image,
+  TextInput,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { COLORS, FONTS, SIZES, SPACING, BORDER_RADIUS, SHADOWS } from '../constants/theme';
+import ReviewModal from '../components/ReviewModal';
 
 // Utility function to parse duration string (e.g., "45 mins") to minutes
 const parseDuration = (durationString) => {
@@ -418,6 +420,69 @@ const CourseCard = ({ course }) => {
 
 const MyCourseScreen = ({ navigation }) => {
   const [activeTab, setActiveTab] = useState('Ongoing');
+  const [reviewModalVisible, setReviewModalVisible] = useState(false);
+  const [selectedCourse, setSelectedCourse] = useState(null);
+  const [skippedReviews, setSkippedReviews] = useState([]);
+  const [searchVisible, setSearchVisible] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
+  
+  // Filter courses based on search query
+  const filteredOngoingCourses = ONGOING_COURSES.filter(course => 
+    course.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    course.category.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+  
+  const filteredCompletedCourses = COMPLETED_COURSES.filter(course => 
+    course.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    course.category.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+  
+  const handleCoursePress = (course) => {
+    if (activeTab === 'Completed') {
+      // Check if the user has already skipped reviewing this course
+      if (skippedReviews.includes(course.id)) {
+        // Navigate directly to course details if they've skipped before
+        navigation.navigate('CourseDetailsScreen', { course });
+      } else {
+        // Show the review modal if they haven't skipped before
+        setSelectedCourse(course);
+        setReviewModalVisible(true);
+      }
+    } else {
+      // For ongoing courses, navigate to details
+      navigation.navigate('CourseDetailsScreen', { course });
+    }
+  };
+
+  const handleReviewSubmit = ({ rating, review }) => {
+    // Here you would typically send the review to a backend
+    console.log('Review submitted:', { courseId: selectedCourse.id, rating, review });
+    setReviewModalVisible(false);
+    setSelectedCourse(null);
+  };
+
+  const handleReviewCancel = () => {
+    // Add the course ID to the skipped reviews list
+    if (selectedCourse) {
+      setSkippedReviews(prev => [...prev, selectedCourse.id]);
+      
+      // Close the modal
+      setReviewModalVisible(false);
+      
+      // Navigate to the course details
+      navigation.navigate('CourseDetailsScreen', { course: selectedCourse });
+      
+      // Clear the selected course
+      setSelectedCourse(null);
+    }
+  };
+
+  const toggleSearch = () => {
+    setSearchVisible(!searchVisible);
+    if (searchVisible) {
+      setSearchQuery(''); // Clear search when closing
+    }
+  };
   
   return (
     <SafeAreaView style={styles.container}>
@@ -438,9 +503,13 @@ const MyCourseScreen = ({ navigation }) => {
         <View style={styles.headerRight}>
           <TouchableOpacity 
             style={styles.iconButton}
-            onPress={() => navigation.navigate('SearchScreen')}
+            onPress={toggleSearch}
           >
-            <Ionicons name="search-outline" size={24} color={COLORS.text.primary} />
+            <Ionicons 
+              name={searchVisible ? "close-outline" : "search-outline"} 
+              size={24} 
+              color={COLORS.text.primary} 
+            />
           </TouchableOpacity>
           <TouchableOpacity 
             style={styles.iconButton}
@@ -450,6 +519,28 @@ const MyCourseScreen = ({ navigation }) => {
           </TouchableOpacity>
         </View>
       </View>
+      
+      {/* Search Bar */}
+      {searchVisible && (
+        <View style={styles.searchContainer}>
+          <View style={styles.searchInputContainer}>
+            <Ionicons name="search-outline" size={20} color={COLORS.text.gray} style={styles.searchIcon} />
+            <TextInput
+              style={styles.searchInput}
+              placeholder="Search courses..."
+              placeholderTextColor={COLORS.text.gray}
+              value={searchQuery}
+              onChangeText={setSearchQuery}
+              autoFocus
+            />
+            {searchQuery.length > 0 && (
+              <TouchableOpacity onPress={() => setSearchQuery('')}>
+                <Ionicons name="close-circle" size={20} color={COLORS.text.gray} />
+              </TouchableOpacity>
+            )}
+          </View>
+        </View>
+      )}
       
       {/* Tabs */}
       <View style={styles.tabsContainer}>
@@ -475,25 +566,59 @@ const MyCourseScreen = ({ navigation }) => {
         contentContainerStyle={styles.courseListContainer}
       >
         {activeTab === 'Ongoing' ? (
-          ONGOING_COURSES.map(course => (
-            <TouchableOpacity 
-              key={course.id} 
-              onPress={() => navigation.navigate('CourseDetailsScreen', { course })}
-            >
-              <CourseCard course={course} />
-            </TouchableOpacity>
-          ))
+          filteredOngoingCourses.length > 0 ? (
+            filteredOngoingCourses.map(course => (
+              <TouchableOpacity 
+                key={course.id} 
+                onPress={() => handleCoursePress(course)}
+              >
+                <CourseCard course={course} />
+              </TouchableOpacity>
+            ))
+          ) : (
+            <View style={styles.noResultsContainer}>
+              <Ionicons name="search-outline" size={48} color={COLORS.text.lightGray} />
+              <Text style={styles.noResultsText}>
+                {searchQuery.length > 0 
+                  ? `No courses found for "${searchQuery}"`
+                  : "No ongoing courses yet"}
+              </Text>
+            </View>
+          )
         ) : (
-          COMPLETED_COURSES.map(course => (
-            <TouchableOpacity 
-              key={course.id} 
-              onPress={() => navigation.navigate('CourseDetailsScreen', { course })}
-            >
-              <CourseCard course={course} />
-            </TouchableOpacity>
-          ))
+          filteredCompletedCourses.length > 0 ? (
+            filteredCompletedCourses.map(course => (
+              <TouchableOpacity 
+                key={course.id} 
+                onPress={() => handleCoursePress(course)}
+              >
+                <CourseCard course={course} />
+              </TouchableOpacity>
+            ))
+          ) : (
+            <View style={styles.noResultsContainer}>
+              <Ionicons name="search-outline" size={48} color={COLORS.text.lightGray} />
+              <Text style={styles.noResultsText}>
+                {searchQuery.length > 0 
+                  ? `No courses found for "${searchQuery}"`
+                  : "No completed courses yet"}
+              </Text>
+            </View>
+          )
         )}
       </ScrollView>
+
+      {/* Review Modal */}
+      <ReviewModal
+        visible={reviewModalVisible}
+        onClose={() => {
+          setReviewModalVisible(false);
+          setSelectedCourse(null);
+        }}
+        onSubmit={handleReviewSubmit}
+        onCancel={handleReviewCancel}
+        course={selectedCourse}
+      />
     </SafeAreaView>
   );
 };
@@ -631,6 +756,41 @@ const styles = StyleSheet.create({
     fontFamily: FONTS.urbanist.medium,
     fontSize: 12,
     color: COLORS.text.gray,
+  },
+  searchContainer: {
+    paddingHorizontal: SPACING.xxxl,
+    paddingVertical: SPACING.md,
+  },
+  searchInputContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: COLORS.background.gray,
+    borderRadius: BORDER_RADIUS.lg,
+    paddingHorizontal: SPACING.md,
+    height: 44,
+  },
+  searchIcon: {
+    marginRight: SPACING.sm,
+  },
+  searchInput: {
+    flex: 1,
+    fontFamily: FONTS.urbanist.medium,
+    fontSize: 16,
+    color: COLORS.text.primary,
+    height: '100%',
+  },
+  noResultsContainer: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginTop: SPACING.xxxl * 2,
+    padding: SPACING.xl,
+  },
+  noResultsText: {
+    fontFamily: FONTS.urbanist.medium,
+    fontSize: 16,
+    color: COLORS.text.lightGray,
+    textAlign: 'center',
+    marginTop: SPACING.lg,
   },
 });
 

@@ -135,7 +135,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingHorizontal: SPACING.xl,
     paddingVertical: SPACING.lg,
-    marginTop: 30,
+    marginTop: 50,
   },
   headerLeft: {
     flexDirection: 'row',
@@ -147,7 +147,7 @@ const styles = StyleSheet.create({
   },
   title: {
     fontFamily: FONTS.urbanist.bold,
-    fontSize: SIZES.xxl,
+    fontSize: SIZES.h1,
     color: COLORS.text.primary,
   },
   moreButton: {

@@ -39,7 +39,7 @@ export const SIZES = {
   lg: 16,
   xl: 18,
   xxl: 20,
-  h1: 24,
+  h1: 32,
   h2: 48,
 };
 

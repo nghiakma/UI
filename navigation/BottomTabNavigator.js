@@ -5,31 +5,15 @@ import { Ionicons } from '@expo/vector-icons';
 import { COLORS, FONTS, SIZES, SPACING, BORDER_RADIUS, SHADOWS } from '../constants/theme';
 import HomeStack from './HomeStack';
 import MyCourseStack from './MyCourseStack';
-// import MyCourseScreen from '../screens/MyCourseScreen';
+import InboxStack from './InboxStack';
+import TransactionStack from './TransactionStack';
+import ProfileScreen from '../screens/ProfileScreen';
 // Temporary screen components (will be replaced later)
 // const HomeScreen = () => (
 //   <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
 //     <Text>Home Screen</Text>
 //   </View>
 // );
-
-const InboxScreen = () => (
-  <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-    <Text>Inbox Screen</Text>
-  </View>
-);
-
-const TransactionScreen = () => (
-  <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-    <Text>Transaction Screen</Text>
-  </View>
-);
-
-const ProfileScreen = () => (
-  <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-    <Text>Profile Screen</Text>
-  </View>
-);
 
 const Tab = createBottomTabNavigator();
 
@@ -64,7 +48,7 @@ const BottomTabNavigator = () => {
       />
       <Tab.Screen
         name="Inbox"
-        component={InboxScreen}
+        component={InboxStack}
         options={{
           tabBarIcon: ({ color }) => (
             <Ionicons name="mail-outline" size={24} color={color} />
@@ -73,7 +57,7 @@ const BottomTabNavigator = () => {
       />
       <Tab.Screen
         name="Transaction"
-        component={TransactionScreen}
+        component={TransactionStack}
         options={{
           tabBarIcon: ({ color }) => (
             <Ionicons name="wallet-outline" size={24} color={color} />
