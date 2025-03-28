@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   View,
   Text,
@@ -9,9 +9,11 @@ import {
   Image,
   StatusBar,
   Switch,
+  Alert,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { COLORS, FONTS, SIZES, SPACING, BORDER_RADIUS, SHADOWS } from '../constants/theme';
+import LogoutBottomSheet from '../components/LogoutBottomSheet';
 
 const MenuItem = ({ icon, title, rightComponent, onPress }) => {
   return (
@@ -36,14 +38,27 @@ const Divider = () => <View style={styles.divider} />;
 
 const ProfileScreen = ({ navigation }) => {
   const [isDarkMode, setIsDarkMode] = React.useState(false);
+  const [showLogoutSheet, setShowLogoutSheet] = useState(false);
 
   const toggleDarkMode = () => {
     setIsDarkMode(previousState => !previousState);
   };
 
-  const handleLogout = () => {
-    // Handle logout logic here
-    console.log('Logging out');
+  const handleLogoutPress = () => {
+    setShowLogoutSheet(true);
+  };
+
+  const handleCancelLogout = () => {
+    setShowLogoutSheet(false);
+  };
+
+  const handleConfirmLogout = () => {
+    setShowLogoutSheet(false);
+    // Implement actual logout logic here
+    // For example, clear authentication tokens, reset user data, etc.
+    Alert.alert('Logged Out', 'You have been successfully logged out.');
+    // Navigate to login or auth screen if needed
+    // navigation.navigate('Login');
   };
 
   return (
@@ -163,13 +178,20 @@ const ProfileScreen = ({ navigation }) => {
           {/* Logout Button */}
           <TouchableOpacity 
             style={styles.logoutButton}
-            onPress={handleLogout}
+            onPress={handleLogoutPress}
           >
             <Ionicons name="log-out-outline" size={24} color={COLORS.error} />
             <Text style={styles.logoutText}>Logout</Text>
           </TouchableOpacity>
         </View>
       </ScrollView>
+
+      {/* Logout Bottom Sheet */}
+      <LogoutBottomSheet
+        isVisible={showLogoutSheet}
+        onCancel={handleCancelLogout}
+        onConfirm={handleConfirmLogout}
+      />
     </SafeAreaView>
   );
 };

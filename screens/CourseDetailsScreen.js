@@ -447,12 +447,45 @@ const CourseDetailsScreen = ({ navigation, route }) => {
                   </View>
                 </View>
 
+                {course.difficulty && (
+                              <View style={[
+                                styles.lessonDifficultyBadge, 
+                                {
+                                  backgroundColor: 
+                                    course.difficulty === 'Beginner' ? '#4CAF5020' : 
+                                    course.difficulty === 'Intermediate' ? '#FF980020' : 
+                                    course.difficulty === 'Advanced' ? '#F4433620' : '#9E9E9E20'
+                                }
+                              ]}>
+                                <View style={[
+                                  styles.lessonDifficultyDot,
+                                  {
+                                    backgroundColor: 
+                                      course.difficulty === 'Beginner' ? '#4CAF50' : 
+                                      course.difficulty === 'Intermediate' ? '#FF9800' : 
+                                      course.difficulty === 'Advanced' ? '#F44336' : '#9E9E9E'
+                                  }
+                                ]} />
+                                <Text style={[
+                                  styles.lessonDifficultyText,
+                                  {
+                                    color: 
+                                      course.difficulty === 'Beginner' ? '#4CAF50' : 
+                                      course.difficulty === 'Intermediate' ? '#FF9800' : 
+                                      course.difficulty === 'Advanced' ? '#F44336' : '#9E9E9E'
+                                  }
+                                ]}>
+                                  {course.difficulty}
+                                </Text>
+                              </View>
+                            )}
+
                 {/* About Course Section */}
                 <View style={styles.sectionContainer}>
                   <Text style={styles.sectionTitle}>About Course</Text>
                   <Text style={styles.descriptionText}>
                     {course.description || `Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip.
-                    \n\nLorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip. Read more...`}
+                    \nLorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip. Read more...`}
                   </Text>
                 </View>
 
@@ -906,7 +939,7 @@ const styles = StyleSheet.create({
     gap: SPACING.xxxl,
   },
   sectionContainer: {
-    marginBottom: SPACING.xl,
+    marginBottom: SPACING.xs,
   },
   sectionHeader: {
     flexDirection: 'row',
@@ -1360,6 +1393,24 @@ const styles = StyleSheet.create({
     fontFamily: FONTS.urbanist.bold,
     fontSize: 16,
     color: COLORS.white,
+  },
+  lessonDifficultyBadge: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    padding: SPACING.xs,
+    borderRadius: BORDER_RADIUS.small,
+    alignSelf: 'flex-start', // Makes the badge only take up necessary width
+  },
+  lessonDifficultyDot: {
+    width: 12,
+    height: 12,
+    borderRadius: 6,
+    marginRight: SPACING.md,
+  },
+  lessonDifficultyText: {
+    fontFamily: FONTS.urbanist.medium,
+    fontSize: SIZES.sm,
+    color: COLORS.text.primary,
   },
 });
 

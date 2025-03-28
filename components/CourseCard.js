@@ -7,6 +7,7 @@ import Tag from './Tag';
 const CourseCard = ({
   title,
   category,
+  difficulty,
   image,
   price,
   originalPrice,
@@ -16,6 +17,20 @@ const CourseCard = ({
   onPress,
   onBookmarkPress,
 }) => {
+  // Helper to get a color for difficulty level
+  const getDifficultyColor = (level) => {
+    switch(level) {
+      case 'Beginner':
+        return '#4CAF50'; // Green
+      case 'Intermediate':
+        return '#FF9800'; // Orange
+      case 'Advanced':
+        return '#F44336'; // Red
+      default:
+        return '#9E9E9E'; // Gray for unknown levels
+    }
+  };
+
   return (
     <TouchableOpacity
       style={styles.container}
@@ -39,6 +54,14 @@ const CourseCard = ({
         <Text style={styles.title} numberOfLines={2}>
           {title}
         </Text>
+        {difficulty && (
+          <View style={[styles.difficultyContainer, { backgroundColor: getDifficultyColor(difficulty) + '20' }]}>
+            <View style={[styles.difficultyDot, { backgroundColor: getDifficultyColor(difficulty) }]} />
+            <Text style={[styles.difficultyText, { color: getDifficultyColor(difficulty) }]}>
+              {difficulty} Level
+            </Text>
+          </View>
+        )}
         <View style={styles.priceContainer}>
           <Text style={styles.price}>${price}</Text>
           {originalPrice && (
@@ -91,6 +114,24 @@ const styles = StyleSheet.create({
     fontSize: SIZES.xl,
     color: COLORS.text.primary,
     lineHeight: 24,
+  },
+  difficultyContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingVertical: 4,
+    paddingHorizontal: 8,
+    borderRadius: BORDER_RADIUS.small,
+    alignSelf: 'flex-start',
+    gap: SPACING.xs,
+  },
+  difficultyDot: {
+    width: 8,
+    height: 8,
+    borderRadius: 4,
+  },
+  difficultyText: {
+    fontFamily: FONTS.urbanist.medium,
+    fontSize: SIZES.sm,
   },
   priceContainer: {
     flexDirection: 'row',
