@@ -21,48 +21,14 @@ export const CATEGORIES = [
   { id: '3', label: '💰 Business' },
   { id: '4', label: '🎨 UI/UX Design' },
   { id: '5', label: '🎨 Entrepreneurship' },
-];
+]
 
-export const COURSES = [
-  {
-    id: '1',
-    title: '3D Design Illustration',
-    category: '3D Design',
-    image: { uri: 'https://picsum.photos/400/300?random=6' },
-    price: '48',
-    originalPrice: '80',
-    rating: '4.8',
-    students: '8,289',
-    isBookmarked: true,
-  },
-  {
-    id: '2',
-    title: 'Digital Entrepreneurship',
-    category: 'Entrepreneurship',
-    image: { uri: 'https://picsum.photos/400/300?random=7' },
-    price: '39',
-    rating: '4.9',
-    students: '6,182',
-    isBookmarked: false,
-  },
-  {
-    id: '3',
-    title: 'Learn UX User Persona',
-    category: 'UI/UX Design',
-    image: { uri: 'https://picsum.photos/400/300?random=8' },
-    price: '42',
-    originalPrice: '75',
-    rating: '4.7',
-    students: '7,938',
-    isBookmarked: true,
-  },
-];
-
-const PopularCoursesScreen = ({ navigation }) => {
+const PopularCoursesScreen = ({ navigation,route }) => {
   const [selectedCategory, setSelectedCategory] = useState('1');
   const { isBookmarked, toggleBookmark } = useBookmark();
   const [selectedCourseId, setSelectedCourseId] = useState(null);
   const [isBottomSheetVisible, setIsBottomSheetVisible] = useState(false);
+  const COURSES = route.params?.courses;
 
   const filteredCourses = COURSES.filter(course => {
     if (selectedCategory === '1') return true;

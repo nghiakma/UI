@@ -4,6 +4,7 @@ import { View, Text, StyleSheet } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { COLORS, FONTS, SIZES, SPACING, BORDER_RADIUS, SHADOWS } from '../constants/theme';
 import HomeStack from './HomeStack';
+import MyCourseStack from './MyCourseStack';
 // import MyCourseScreen from '../screens/MyCourseScreen';
 // Temporary screen components (will be replaced later)
 // const HomeScreen = () => (
@@ -11,12 +12,6 @@ import HomeStack from './HomeStack';
 //     <Text>Home Screen</Text>
 //   </View>
 // );
-
-const MyCourseScreen = () => (
-  <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-    <Text>My Course Screen</Text>
-  </View>
-);
 
 const InboxScreen = () => (
   <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
@@ -60,7 +55,7 @@ const BottomTabNavigator = () => {
       />
       <Tab.Screen
         name="My Course"
-        component={MyCourseScreen}
+        component={MyCourseStack}
         options={{
           tabBarIcon: ({ color }) => (
             <Ionicons name="book-outline" size={24} color={color} />

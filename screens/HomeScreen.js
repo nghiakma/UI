@@ -406,6 +406,7 @@ const HomeScreen = ({ navigation }) => {
   const { isBookmarked, toggleBookmark } = useBookmark();
   const [selectedCourseId, setSelectedCourseId] = useState(null);
   const [isBottomSheetVisible, setIsBottomSheetVisible] = useState(false);
+  const [courses, setCourses] = useState(COURSES);
 
   const filteredCourses = COURSES.filter(course => {
     if (selectedCategory === '1') return true;
@@ -526,7 +527,7 @@ const HomeScreen = ({ navigation }) => {
         <View style={styles.section}>
           <View style={styles.sectionHeader}>
             <Text style={styles.sectionTitle}>Most Popular Courses</Text>
-            <TouchableOpacity onPress={() => navigation.navigate('PopularCourses')}>
+            <TouchableOpacity onPress={() => navigation.navigate('PopularCourses',{courses})}>
               <Text style={styles.seeAll}>See All</Text>
             </TouchableOpacity>
           </View>

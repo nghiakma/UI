@@ -19,6 +19,7 @@ import { Video } from 'expo-av';
 import * as ScreenOrientation from 'expo-screen-orientation';
 import { COLORS, FONTS, SIZES, SPACING, BORDER_RADIUS, SHADOWS } from '../constants/theme';
 import Avatar from '../components/Avatar';
+import ReviewItem from '../components/ReviewItem';
 import Tag from '../components/Tag';
 import { useBookmark } from '../context/BookmarkContext';
 import { ResizeMode } from 'expo-av';
@@ -67,37 +68,7 @@ export const COURSE_REVIEWS = [
 ];
 
 // Review Item Component
-const ReviewItem = ({ review }) => {
-  return (
-    <View style={styles.reviewCard}>
-      <View style={styles.reviewHeader}>
-        <View style={styles.reviewerInfo}>
-          <Avatar source={review.avatar} size={48} />
-          <View style={styles.reviewerDetails}>
-            <Text style={styles.reviewerName}>{review.name}</Text>
-            <View style={styles.ratingRow}>
-              <View style={styles.starsContainer}>
-                {[...Array(5)].map((_, i) => (
-                  <Ionicons 
-                    key={i} 
-                    name={i < review.rating ? "star" : "star-outline"} 
-                    size={16} 
-                    color={COLORS.secondary} 
-                  />
-                ))}
-              </View>
-              <Text style={styles.reviewDate}>{review.date}</Text>
-            </View>
-          </View>
-        </View>
-        <TouchableOpacity style={styles.moreButton}>
-          <Ionicons name="ellipsis-horizontal" size={24} color={COLORS.text.gray} />
-        </TouchableOpacity>
-      </View>
-      <Text style={styles.reviewText}>{review.review}</Text>
-    </View>
-  );
-};
+
 
 // Function to calculate total duration for a section
 const calculateTotalDuration = (lessons) => {
