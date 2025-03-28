@@ -13,6 +13,7 @@ import {
   Dimensions,
   Alert,
   ActivityIndicator,
+  Animated,
 } from 'react-native';
 import { Ionicons, MaterialIcons, FontAwesome } from '@expo/vector-icons';
 import { Video } from 'expo-av';
@@ -99,6 +100,10 @@ const CourseDetailsScreen = ({ navigation, route }) => {
   const [selectedCourseId, setSelectedCourseId] = useState(null);
   const [isBottomSheetVisible, setIsBottomSheetVisible] = useState(false);
   const [reviews, setReviews] = useState(COURSE_REVIEWS);
+  const [certificateAlertShown, setCertificateAlertShown] = useState(false);
+  const [certificateModalVisible, setCertificateModalVisible] = useState(false);
+  const scaleAnim = useRef(new Animated.Value(0)).current;
+  const opacityAnim = useRef(new Animated.Value(0)).current;
 
   const handleBookmarkPress = (courseId) => {
     if (isBookmarked(courseId)) {
@@ -136,7 +141,41 @@ const CourseDetailsScreen = ({ navigation, route }) => {
       },
       // Thêm URL video mẫu HTTP (không HTTPS)
       videoUrl: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
+      isCertificate: true,
     }
+  };
+
+  // Check for certificate and show notification when screen mounts
+  useEffect(() => {
+    if (course.isCertificate && !certificateAlertShown) {
+      setCertificateModalVisible(true);
+      
+      // Start animations
+      Animated.parallel([
+        Animated.spring(scaleAnim, {
+          toValue: 1,
+          tension: 50,
+          friction: 7,
+          useNativeDriver: true
+        }),
+        Animated.timing(opacityAnim, {
+          toValue: 1,
+          duration: 300,
+          useNativeDriver: true
+        })
+      ]).start();
+      
+      setCertificateAlertShown(true);
+    }
+  }, [course.isCertificate, certificateAlertShown, navigation]);
+
+  const handleViewCertificate = () => {
+    setCertificateModalVisible(false);
+    navigation.navigate('CertificateScreen', { course });
+  };
+
+  const handleCertificateLater = () => {
+    setCertificateModalVisible(false);
   };
 
   // Kiểm tra nếu khóa học không có URL video, sử dụng URL mẫu
@@ -337,10 +376,20 @@ const CourseDetailsScreen = ({ navigation, route }) => {
               </View>
 
               {/* Certificate */}
-              <View style={styles.statItem}>
-                <Ionicons name="document-text" size={18} color={COLORS.primary} />
-                <Text style={styles.statText}>Certificate</Text>
-              </View>
+              <TouchableOpacity 
+                style={styles.statItem}
+                onPress={() => course.isCertificate && navigation.navigate('CertificateScreen', { course })}
+              >
+                <Ionicons 
+                  name="document-text" 
+                  size={18} 
+                  color={course.isCertificate ? '#FF0000' : COLORS.primary} 
+                />
+                <Text style={[
+                  styles.statText, 
+                  course.isCertificate && { color: '#FF0000', fontFamily: FONTS.urbanist.bold }
+                ]}>Certificate</Text>
+              </TouchableOpacity>
             </View>
           </View>
 
@@ -636,6 +685,52 @@ const CourseDetailsScreen = ({ navigation, route }) => {
         onClose={() => setIsBottomSheetVisible(false)}
         onConfirm={handleConfirmRemove}
       />
+
+      {/* Certificate Modal */}
+      <Modal
+        visible={certificateModalVisible}
+        transparent={true}
+        animationType="fade"
+        onRequestClose={() => setCertificateModalVisible(false)}
+      >
+        <View style={styles.certificateModalOverlay}>
+          <Animated.View 
+            style={[
+              styles.certificateModalContainer,
+              {
+                transform: [{ scale: scaleAnim }],
+                opacity: opacityAnim
+              }
+            ]}
+          >
+            <View style={styles.certificateIconContainer}>
+              <Ionicons name="document-text" size={40} color="#FF0000" />
+            </View>
+            
+            <Text style={styles.certificateModalTitle}>Certificate Available!</Text>
+            
+            <Text style={styles.certificateModalText}>
+              Congratulations! You are eligible to receive a certificate for completing this course.
+            </Text>
+            
+            <View style={styles.certificateModalButtons}>
+              <TouchableOpacity 
+                style={styles.certificateModalLaterButton} 
+                onPress={handleCertificateLater}
+              >
+                <Text style={styles.certificateModalLaterText}>Later</Text>
+              </TouchableOpacity>
+              
+              <TouchableOpacity 
+                style={styles.certificateModalViewButton} 
+                onPress={handleViewCertificate}
+              >
+                <Text style={styles.certificateModalViewText}>View Certificate</Text>
+              </TouchableOpacity>
+            </View>
+          </Animated.View>
+        </View>
+      </Modal>
     </SafeAreaView>
   );
 };
@@ -1195,6 +1290,76 @@ const styles = StyleSheet.create({
     fontSize: SIZES.md,
     lineHeight: SIZES.md * 1.6,
     color: COLORS.text.secondary,
+  },
+  certificateModalOverlay: {
+    flex: 1,
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: SPACING.xxxl,
+  },
+  certificateModalContainer: {
+    backgroundColor: COLORS.white,
+    borderRadius: BORDER_RADIUS.large,
+    padding: SPACING.xxxl,
+    width: '100%',
+    alignItems: 'center',
+    ...SHADOWS.large,
+  },
+  certificateIconContainer: {
+    width: 80,
+    height: 80,
+    borderRadius: 40,
+    backgroundColor: 'rgba(255, 0, 0, 0.1)',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: SPACING.xl,
+  },
+  certificateModalTitle: {
+    fontFamily: FONTS.urbanist.bold,
+    fontSize: 24,
+    color: COLORS.text.primary,
+    marginBottom: SPACING.md,
+    textAlign: 'center',
+  },
+  certificateModalText: {
+    fontFamily: FONTS.urbanist.medium,
+    fontSize: 16,
+    color: COLORS.text.secondary,
+    textAlign: 'center',
+    marginBottom: SPACING.xxl,
+  },
+  certificateModalButtons: {
+    flexDirection: 'row',
+    width: '100%',
+    justifyContent: 'space-between',
+    gap: SPACING.md,
+  },
+  certificateModalLaterButton: {
+    flex: 1,
+    padding: SPACING.lg,
+    borderRadius: BORDER_RADIUS.full,
+    borderWidth: 1,
+    borderColor: COLORS.border.gray,
+    alignItems: 'center',
+  },
+  certificateModalLaterText: {
+    fontFamily: FONTS.urbanist.semiBold,
+    fontSize: 16,
+    color: COLORS.text.gray,
+  },
+  certificateModalViewButton: {
+    flex: 1,
+    padding: SPACING.lg,
+    borderRadius: BORDER_RADIUS.full,
+    backgroundColor: COLORS.primary,
+    alignItems: 'center',
+    ...SHADOWS.small,
+  },
+  certificateModalViewText: {
+    fontFamily: FONTS.urbanist.bold,
+    fontSize: 16,
+    color: COLORS.white,
   },
 });
 

@@ -64,6 +64,7 @@ const ONGOING_COURSES = [
     color: '#FF4D67',
     category: 'UI/UX Design',
     price: '40',
+    isCertificate: false,
     originalPrice: '75',
     rating: '4.8',
     reviews: '4,479',
@@ -73,7 +74,7 @@ const ONGOING_COURSES = [
       role: 'Senior UI/UX Designer at Google',
       image: { uri: 'https://picsum.photos/200?random=10' }
     },
-    videoUrl: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
+    videoUrl: 'https://storage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
     tools: [
       { title: 'Figma', image: require('../assets/images/figma.png') },
       { title: 'Photoshop', image: require('../assets/images/photoshop.png') },
@@ -118,6 +119,7 @@ const ONGOING_COURSES = [
     color: '#FACC15',
     category: 'Web Development',
     price: '35',
+    isCertificate: false,
     originalPrice: '65',
     rating: '4.6',
     reviews: '3,245',
@@ -127,7 +129,7 @@ const ONGOING_COURSES = [
       role: 'WordPress Expert & Web Developer',
       image: { uri: 'https://picsum.photos/200?random=11' }
     },
-    videoUrl: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4',
+    videoUrl: 'https://storage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
     tools: [
       { title: 'WordPress', image: require('../assets/images/figma.png') },
       { title: 'Elementor', image: require('../assets/images/photoshop.png') },
@@ -172,6 +174,7 @@ const ONGOING_COURSES = [
     color: '#22BB9C',
     category: '3D Design',
     price: '45',
+    isCertificate: false,
     originalPrice: '80',
     rating: '4.7',
     reviews: '2,835',
@@ -181,7 +184,7 @@ const ONGOING_COURSES = [
       role: '3D Designer & UI/UX Specialist',
       image: { uri: 'https://picsum.photos/200?random=12' }
     },
-    videoUrl: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4',
+    videoUrl: 'https://storage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
     tools: [
       { title: 'Blender', image: require('../assets/images/figma.png') },
       { title: 'Figma', image: require('../assets/images/figma.png') },
@@ -225,6 +228,7 @@ const ONGOING_COURSES = [
     color: '#FB9400',
     category: 'UX Research',
     price: '30',
+    isCertificate: false,
     originalPrice: '60',
     rating: '4.9',
     reviews: '3,562',
@@ -234,7 +238,7 @@ const ONGOING_COURSES = [
       role: 'UX Research Lead at Microsoft',
       image: { uri: 'https://picsum.photos/200?random=13' }
     },
-    videoUrl: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4',
+    videoUrl: 'https://storage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
     tools: [
       { title: 'Figma', image: require('../assets/images/figma.png') },
       { title: 'Miro', image: require('../assets/images/photoshop.png') },
@@ -283,6 +287,7 @@ const COMPLETED_COURSES = [
     color: '#335EF7',
     category: 'UI/UX Design',
     price: '50',
+    isCertificate: true,
     originalPrice: '90',
     rating: '4.9',
     reviews: '5,247',
@@ -292,7 +297,7 @@ const COMPLETED_COURSES = [
       role: 'Design Lead at Apple',
       image: { uri: 'https://picsum.photos/200?random=14' }
     },
-    videoUrl: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerFun.mp4',
+    videoUrl: 'https://storage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
     tools: [
       { title: 'Figma', image: require('../assets/images/figma.png') },
       { title: 'Sketch', image: require('../assets/images/photoshop.png') },
@@ -336,6 +341,7 @@ const COMPLETED_COURSES = [
     color: '#FF4D67',
     category: 'App Development',
     price: '60',
+    isCertificate: true,
     originalPrice: '110',
     rating: '4.8',
     reviews: '4,863',
@@ -345,7 +351,7 @@ const COMPLETED_COURSES = [
       role: 'Senior Mobile Developer at Uber',
       image: { uri: 'https://picsum.photos/200?random=15' }
     },
-    videoUrl: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyrides.mp4',
+    videoUrl: 'https://storage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
     tools: [
       { title: 'React Native', image: require('../assets/images/figma.png') },
       { title: 'Firebase', image: require('../assets/images/photoshop.png') },
