@@ -104,7 +104,7 @@ const ProfileScreen = ({ navigation }) => {
           <MenuItem 
             icon="notifications-outline" 
             title="Notification" 
-            onPress={() => navigation.navigate('Notification')}
+            onPress={() => navigation.navigate('NotificationSettings')}
           />
           
           <MenuItem 
@@ -125,7 +125,7 @@ const ProfileScreen = ({ navigation }) => {
             rightComponent={
               <Text style={styles.languageText}>English (US)</Text>
             }
-            onPress={() => navigation.navigate('Language')}
+            onPress={() => navigation.navigate('LanguageSettings')}
           />
           
           <MenuItem 
