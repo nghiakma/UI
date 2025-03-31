@@ -14,6 +14,8 @@ import MentorReviewsScreen from '../screens/MentorReviewsScreen';
 import CourseDetailsScreen from '../screens/CourseDetailsScreen';
 import AllLessonsScreen from '../screens/AllLessonsScreen';
 import CourseReviewsScreen from '../screens/CourseReviewsScreen';
+import CertificateScreen from '../screens/CertificateScreen';
+import LessonDetailScreen from '../screens/LessonDetailScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -38,6 +40,8 @@ const HomeStack = () => {
         <Stack.Screen name="CourseDetails" component={CourseDetailsScreen} />
         <Stack.Screen name="AllLessons" component={AllLessonsScreen} />
         <Stack.Screen name="CourseReviews" component={CourseReviewsScreen} />
+        <Stack.Screen name="CertificateScreen" component={CertificateScreen} />
+        <Stack.Screen name="LessonDetail" component={LessonDetailScreen} />
       </Stack.Navigator>
     </BookmarkProvider>
   );

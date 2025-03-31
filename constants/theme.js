@@ -20,7 +20,9 @@ export const COLORS = {
   border: {
     gray: '#E0E0E0',
     lightGray: '#BDBDBD',
-  }
+  },
+  success: '#00C853',
+  error: '#FF0000',
 };
 
 export const FONTS = {

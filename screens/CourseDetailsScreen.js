@@ -297,6 +297,40 @@ const CourseDetailsScreen = ({ navigation, route }) => {
     }
   }, [course]);
 
+  const handleEnrollOrGoToCourse = () => {
+    if (course.isEnrolled) {
+      // Navigate to the first lesson of the course
+      const firstLesson = course.lessons?.sections?.[0]?.lessons?.[0];
+      if (firstLesson) {
+        navigation.navigate('LessonDetail', { 
+          courseId: course.id, 
+          lessonId: firstLesson.id, 
+          courseTitle: course.title 
+        });
+      } else {
+        // Handle case where there are no lessons
+        Alert.alert("No Lessons", "This course doesn't have any lessons yet.");
+      }
+    } else {
+      // Handle enroll action (e.g., navigate to payment or show confirmation)
+      Alert.alert("Enroll", "Enrollment flow not implemented yet.");
+    }
+  };
+
+  const handleLessonPress = (lesson) => {
+    if (course.isEnrolled && !lesson.isLocked) {
+      navigation.navigate('LessonDetail', { 
+        courseId: course.id, 
+        lessonId: lesson.id,
+        courseTitle: course.title
+      });
+    } else if (!course.isEnrolled) {
+      Alert.alert("Not Enrolled", "Please enroll in the course to access this lesson.");
+    } else {
+      Alert.alert("Lesson Locked", "This lesson is currently locked."); // Or handle unlocking logic
+    }
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar barStyle="light-content" />
@@ -526,22 +560,56 @@ const CourseDetailsScreen = ({ navigation, route }) => {
                     </View>
                     
                     {section.lessons.map((lesson) => (
-                      <View key={lesson.id} style={styles.lessonCard}>
+                      <TouchableOpacity 
+                        key={lesson.id} 
+                        style={styles.lessonCard} 
+                        onPress={() => handleLessonPress(lesson)}
+                        activeOpacity={0.7}
+                      >
                         <View style={styles.lessonNumberContainer}>
                           <Text style={styles.lessonNumber}>{lesson.number}</Text>
                         </View>
                         <View style={styles.lessonDetails}>
                           <Text style={styles.lessonTitle}>{lesson.title}</Text>
-                          <Text style={styles.lessonDuration}>{lesson.duration}</Text>
+                          <View style={styles.lessonInfoRow}>
+                            <Text style={styles.lessonDuration}>{lesson.duration}</Text>
+                            
+                            {/* Difficulty indicator */}
+                            {course.difficulty && (
+                              <View style={styles.lessonDifficultyBadge}>
+                                <View style={[
+                                  styles.lessonDifficultyDot,
+                                  {
+                                    backgroundColor: 
+                                      course.difficulty === 'Beginner' ? '#4CAF50' : 
+                                      course.difficulty === 'Intermediate' ? '#FF9800' : 
+                                      course.difficulty === 'Advanced' ? '#F44336' : '#9E9E9E'
+                                  }
+                                ]} />
+                                <Text style={[
+                                  styles.lessonDifficultyText,
+                                  {
+                                    color: 
+                                      course.difficulty === 'Beginner' ? '#4CAF50' : 
+                                      course.difficulty === 'Intermediate' ? '#FF9800' : 
+                                      course.difficulty === 'Advanced' ? '#F44336' : '#9E9E9E'
+                                  }
+                                ]}>
+                                  {course.difficulty}
+                                </Text>
+                              </View>
+                            )}
+                          </View>
                         </View>
-                        <TouchableOpacity style={styles.lessonActionButton}>
+                        {/* Lock/Play icon based on enrolled status and lesson lock status */}
+                        <View style={styles.lessonActionButton}>
                           <Ionicons 
-                            name={lesson.isLocked ? "lock-closed-outline" : "play"} 
-                            size={20} 
-                            color={lesson.isLocked ? COLORS.text.lightGray : COLORS.primary} 
+                            name={(!course.isEnrolled || lesson.isLocked) ? "lock-closed-outline" : "play-circle-outline"} 
+                            size={24} 
+                            color={(!course.isEnrolled || lesson.isLocked) ? COLORS.text.lightGray : COLORS.primary} 
                           />
-                        </TouchableOpacity>
-                      </View>
+                        </View>
+                      </TouchableOpacity>
                     ))}
                   </View>
                 ))}
@@ -707,10 +775,15 @@ const CourseDetailsScreen = ({ navigation, route }) => {
         </View>
       </Modal>
 
-      {/* Enroll Button */}
+      {/* Bottom Button: Enroll or Go to Course */}
       <View style={styles.bottomContainer}>
-        <TouchableOpacity style={styles.enrollButton}>
-          <Text style={styles.enrollButtonText}>Enroll Course - ${course.price}</Text>
+        <TouchableOpacity 
+          style={styles.enrollButton} 
+          onPress={handleEnrollOrGoToCourse}
+        >
+          <Text style={styles.enrollButtonText}>
+            {course.isEnrolled ? 'Go to Course' : `Enroll Course - $${course.price}`}
+          </Text>
         </TouchableOpacity>
       </View>
       <RemoveBookmarkSheet

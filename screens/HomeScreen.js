@@ -52,6 +52,7 @@ export const COURSES = [
     title: '3D Design Illustration',
     category: '3D Design',
     difficulty: 'Intermediate',
+    isEnrolled: true,
     image: { uri: 'https://picsum.photos/400/300?random=6' },
     price: '48',
     originalPrice: '80',
@@ -60,7 +61,8 @@ export const COURSES = [
     isBookmarked: true,
     reviews: '4,479',
     duration: '2,5',
-    videoUrl: 'https://storage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
+    description: 'Learn the fundamentals of 3D design and illustration using industry-standard software. This course covers modeling, texturing, lighting, and rendering techniques to create stunning visuals.',
+    videoUrl: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
     tools:[
       {
         title:"Figma",
@@ -88,17 +90,34 @@ export const COURSES = [
               number: '01',
               title: 'Why Using 3D Design',
               duration: '20 mins',
-              isLocked: false
+              isLocked: false,
+              videoUrl: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4',
+              content: 'Understand the importance and applications of 3D design in various industries. Explore the benefits of using 3D over traditional 2D methods.',
+              resources: [
+                { id: 'r1', title: 'Introductory Slides.pdf', type: 'pdf', url: '#' },
+                { id: 'r2', title: 'Useful Links.docx', type: 'doc', url: '#' },
+              ],
+              quiz: [
+                { id: 'q1', question: 'What is a primary benefit of 3D over 2D design?', options: ['Faster rendering', 'Better visualization', 'Easier file sharing', 'Lower cost'], correctAnswer: 'Better visualization' },
+                { id: 'q2', question: 'Which industry commonly uses 3D design?', options: ['Architecture', 'Film & VFX', 'Game Development', 'All of the above'], correctAnswer: 'All of the above' },
+              ],
+             
             },
             {
               id: '2',
               number: '02',
               title: 'Set up Your Design Environment',
               duration: '5 mins',
-              isLocked: true
+              isLocked: false,
+              videoUrl: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4',
+              content: 'Step-by-step guide to installing and configuring the necessary software (Blender/Figma/Photoshop). Ensure your system meets the requirements.',
+              resources: [
+                { id: 'r3', title: 'Software Installation Guide.pdf', type: 'pdf', url: '#' },
+              ],
+             
             }
           ],
-          totalDuration: '15 mins' // Will be calculated in CourseDetailsScreen
+          totalDuration: '25 mins'
         },
         {
           id: '2',
@@ -110,28 +129,44 @@ export const COURSES = [
               number: '03',
               title: 'Understanding 3D Interface',
               duration: '15 mins',
-              isLocked: true
+              isLocked: false,
+              videoUrl: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4',
+              content: 'Navigate the 3D software interface, understand panels, viewports, and essential tools for modeling.',
+              resources: []
             },
             {
               id: '4',
               number: '04',
               title: 'Working with Shapes & Objects',
               duration: '10 mins',
-              isLocked: true
+              isLocked: false,
+              videoUrl: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerFun.mp4',
+              content: 'Learn to create and manipulate basic geometric shapes and objects, the building blocks of 3D models.',
+              resources: [
+                { id: 'r4', title: 'Basic Shapes Cheat Sheet.pdf', type: 'pdf', url: '#' },
+              ]
             },
             {
               id: '5',
               number: '05',
               title: 'Working with Lighting & Textures',
               duration: '10 mins',
-              isLocked: true
+              isLocked: false,
+              videoUrl: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyrides.mp4',
+              content: 'Explore different lighting techniques and apply textures to add realism to your 3D models.',
+              resources: []
             },
             {
               id: '6',
               number: '06',
               title: 'Using Design Plugins',
               duration: '25 mins',
-              isLocked: true
+              isLocked: false,
+              videoUrl: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerMeltdowns.mp4',
+              content: 'Discover useful plugins that can enhance your workflow and add advanced features to your design process.',
+              resources: [
+                { id: 'r5', title: 'Top 10 Plugins.docx', type: 'doc', url: '#' },
+              ]
             }
           ]
         },
@@ -178,6 +213,7 @@ export const COURSES = [
     title: 'Digital Entrepreneurship',
     category: 'Entrepreneurship',
     difficulty: 'Advanced',
+    isEnrolled: false,
     image: { uri: 'https://picsum.photos/400/300?random=7' },
     price: '39',
     rating: '4.9',
@@ -210,14 +246,20 @@ export const COURSES = [
               number: '01',
               title: 'What is Digital Entrepreneurship',
               duration: '12 mins',
-              isLocked: false
+              isLocked: false,
+              videoUrl: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/SubaruOutbackOnStreetAndDirt.mp4',
+              content: 'Introduction to the world of digital business and opportunities.',
+              resources: []
             },
             {
               id: '2',
               number: '02',
               title: 'Market Research Basics',
               duration: '8 mins',
-              isLocked: true
+              isLocked: true,
+              videoUrl: null,
+              content: 'Learn how to research your target market.',
+              resources: []
             }
           ]
         },
@@ -285,6 +327,7 @@ export const COURSES = [
     title: 'Intro to UI/UX Design',
     category: 'UI/UX Design',
     difficulty: 'Beginner',
+    isEnrolled: false,
     image: { uri: 'https://picsum.photos/400/300?random=8' },
     price: '42',
     originalPrice: '75',
@@ -318,14 +361,20 @@ export const COURSES = [
               number: '01',
               title: 'Why Using Figma',
               duration: '10 mins',
-              isLocked: false
+              isLocked: false,
+              videoUrl: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4',
+              content: 'Benefits of using Figma for UI/UX design.',
+              resources: []
             },
             {
               id: '2',
               number: '02',
               title: 'Set up Your Figma Account',
               duration: '5 mins',
-              isLocked: true
+              isLocked: true,
+              videoUrl: null,
+              content: 'How to create and set up your Figma account.',
+              resources: []
             }
           ]
         },
